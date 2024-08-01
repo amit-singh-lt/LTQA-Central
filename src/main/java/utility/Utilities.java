@@ -33,7 +33,7 @@ public class Utilities {
      * @param r                   The Runnable to execute.
      * @return true if the execution was successful within the allowed attempts, false otherwise.
      */
-    public static boolean retry(int maxRetriesOnFailure, Runnable r) {
+    public boolean retry(int maxRetriesOnFailure, Runnable r) {
         int tries = 0;
         while (tries < maxRetriesOnFailure) {
             try {
@@ -56,7 +56,7 @@ public class Utilities {
      * @param passWord The password.
      * @return A Base64 encoded string representing the credentials.
      */
-    public static String generateBase64EncodedAuthToken(String userName, String passWord) {
+    public String generateBase64EncodedAuthToken(String userName, String passWord) {
         return Base64.getEncoder().encodeToString((userName + ":" + passWord).getBytes());
     }
 
@@ -66,7 +66,7 @@ public class Utilities {
      *
      * @return A new Random object.
      */
-    public static Random newRandom() {
+    public Random newRandom() {
         return new Random();
     }
 
@@ -77,7 +77,7 @@ public class Utilities {
      * @param size The desired length of the random string.
      * @return A random alphanumeric string of the given size.
      */
-    public static String getRandomAlphaNumericString(int size) {
+    public String getRandomAlphaNumericString(int size) {
         byte[] byteArray = new byte[256];
         newRandom().nextBytes(byteArray);
         String randomStr = new String(byteArray, StandardCharsets.UTF_8);
@@ -99,7 +99,7 @@ public class Utilities {
      * @return The open port number as a string.
      */
     @SneakyThrows
-    public static String getOpenPort() {
+    public String getOpenPort() {
         try {
             ServerSocket serverSocket = new ServerSocket(0);
             int port = serverSocket.getLocalPort();

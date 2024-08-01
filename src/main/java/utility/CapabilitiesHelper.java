@@ -124,28 +124,12 @@ public class CapabilitiesHelper extends WaitConstant {
      * @throws Exception If driver creation fails, the exception is handled and rethrown.
      */
     public RemoteWebDriver driverCreate(Map<String, Object> mapCapabilities) throws Exception {
-        ltLogger.info("lt:options :- {}", mapCapabilities);
         dc.setCapability("lt:options", mapCapabilities);
         ltLogger.info("Capabilities :- {}", dc);
         try {
             uri = new URI(HTTPS + userName + ":" + accessKey + "@" + gridUrl);
             ltLogger.info("URI :- {}", uri);
-            StopWatch stopWatch = new StopWatch();
-            stopWatch.start();
-            RemoteWebDriver testDriver = new RemoteWebDriver(uri.toURL(), dc);
-            stopWatch.stop();
-            int driverCreationTime = (int) stopWatch.getTime();
-            ltLogger.info("Driver Creation Time :- {} seconds", driverCreationTime);
-            String sessionId = testDriver.getSessionId().toString();
-            ltLogger.info("Session ID :- {}", sessionId);
-            testDriver.manage().deleteAllCookies();
-            testDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(SHORT_WAIT_TIME));
-            testDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(LONG_WAIT_TIME));
-            String platformName = ltOptions.get("platformName").toString();
-            if(!(platformName.equalsIgnoreCase("android") || platformName.equalsIgnoreCase("ios"))) {
-                testDriver.manage().window().maximize();
-            }
-            return testDriver;
+            return new RemoteWebDriver(uri.toURL(), dc);
         } catch (Exception e) {
             handleDriverCreationException(e);
         }

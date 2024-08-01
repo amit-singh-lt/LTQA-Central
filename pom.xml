@@ -6,7 +6,7 @@
 
   <groupId>io.github.amit-singh-lt</groupId>
   <artifactId>ltqa-central</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.5</version>
   <packaging>jar</packaging>
 
   <name>LTQA</name>
@@ -80,7 +80,7 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-support</artifactId>
-      <version>4.13.0</version>
+      <version>4.20.0</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured-all -->
@@ -187,28 +187,6 @@
                   </excludes>
                 </resource>
               </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Shade Plugin for creating a jar with dependencies -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>runner.LTTestRunnerIT</mainClass>
-                </transformer>
-              </transformers>
             </configuration>
           </execution>
         </executions>
