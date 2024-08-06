@@ -1,15 +1,13 @@
 package helper;
 
 import org.apache.logging.log4j.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utility.Utilities;
 
+import java.io.File;
 import java.time.Duration;
 
 import static utility.WaitConstant.*;
@@ -30,8 +28,6 @@ public class WebDriverHelper extends Utilities {
   private static final String NAME = "name";
   private static final String TAG_NAME = "tagname";
 
-
-
   /**
    * Constructor that initializes the WebDriver with a specific RemoteWebDriver instance.
    *
@@ -40,7 +36,6 @@ public class WebDriverHelper extends Utilities {
   public WebDriverHelper(RemoteWebDriver testDriver) {
     this.driver = testDriver;
   }
-
 
   /**
    * Finds a WebElement locator using a specified strategy and value.
@@ -63,7 +58,6 @@ public class WebDriverHelper extends Utilities {
     };
   }
 
-
   /**
    * Waits for an element to be present on the page and returns it.
    *
@@ -82,7 +76,6 @@ public class WebDriverHelper extends Utilities {
     }
   }
 
-
   /**
    * Opens a specified URL in the browser.
    *
@@ -93,7 +86,6 @@ public class WebDriverHelper extends Utilities {
     this.driver.get(url);
   }
 
-
   /**
    * Gets the title of the current page.
    *
@@ -102,7 +94,6 @@ public class WebDriverHelper extends Utilities {
   public String getTitle() {
     return this.driver.getTitle();
   }
-
 
   /**
    * Gets the current URL of the browser.
@@ -113,14 +104,12 @@ public class WebDriverHelper extends Utilities {
     return this.driver.getCurrentUrl();
   }
 
-
   /**
    * Refreshes the current page.
    */
   public void pageRefresh() {
     this.driver.navigate().refresh();
   }
-
 
   /**
    * Navigates forward in the browser's history.
@@ -129,14 +118,12 @@ public class WebDriverHelper extends Utilities {
     this.driver.navigate().forward();
   }
 
-
   /**
    * Navigates backward in the browser's history.
    */
   public void pageBack() {
     this.driver.navigate().back();
   }
-
 
   /**
    * Finds and returns a WebElement using the specified locator and wait time.
@@ -150,7 +137,6 @@ public class WebDriverHelper extends Utilities {
     return waitForElement(locator, waitTime);
   }
 
-
   /**
    * Finds and returns a WebElement using the specified locator and a default wait time of 30 seconds.
    *
@@ -161,7 +147,6 @@ public class WebDriverHelper extends Utilities {
     return getElement(locator, 30);
   }
 
-
   /**
    * Gets the text content of a WebElement.
    *
@@ -171,7 +156,6 @@ public class WebDriverHelper extends Utilities {
   public String getText(WebElement ele) {
     return ele.getText().trim();
   }
-
 
   /**
    * Finds a WebElement using the specified locator and returns its text content.
@@ -184,7 +168,9 @@ public class WebDriverHelper extends Utilities {
     return getText(ele);
   }
 
+
   // JAVASCRIPT EXECUTION
+
 
   /**
    * Executes the given JavaScript script in the context of the currently selected frame or window.
@@ -204,11 +190,36 @@ public class WebDriverHelper extends Utilities {
     }
   }
 
-
   /**
    * Performs a hard refresh of the current page using JavaScript.
    */
   public void hardRefresh() {
     ((RemoteWebDriver) this.driver).executeScript("location.reload(true);");
   }
+
+
+  // SCREEN SHOTS
+
+
+  /**
+   * Takes a screenshot of the entire page and returns it as a File.
+   *
+   * @return A File object representing the screenshot of the entire page.
+   */
+  public File getPageScreenShotAsFile() {
+    return ((RemoteWebDriver) driver).getScreenshotAs(OutputType.FILE);
+  }
+
+  /**
+   * Takes a screenshot of a specific element located by the provided locator and returns it as a File.
+   * Logs the locator details before taking the screenshot.
+   *
+   * @param locator An array containing the locator type (e.g., "id", "xpath") and the locator value.
+   * @return A File object representing the screenshot of the specified element.
+   */
+  public File getElementScreenshotAsFile(String[] locator) {
+    ltLogger.info("get screenshot with locator using ['{}','{}']", locator[0], locator[1]);
+    return getElement(locator).getScreenshotAs(OutputType.FILE);
+  }
+
 }
