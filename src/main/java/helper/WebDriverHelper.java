@@ -33,7 +33,7 @@ public class WebDriverHelper extends Utilities {
    *
    * @param testDriver The RemoteWebDriver instance to use.
    */
-  public WebDriverHelper(RemoteWebDriver testDriver) {
+  public WebDriverHelper(WebDriver testDriver) {
     this.driver = testDriver;
   }
 
@@ -68,11 +68,11 @@ public class WebDriverHelper extends Utilities {
   public WebElement waitForElement(String[] locator, int timeout) {
     try {
       ltLogger.info("Waiting for element using ['{}','{}']", locator[0], locator[1]);
-      this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+      driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
       WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
       return wait.until(ExpectedConditions.presenceOfElementLocated(findElementBy(locator)));
     } finally {
-      this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(SHORT_WAIT_TIME));
+      driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(SHORT_WAIT_TIME));
     }
   }
 
@@ -83,7 +83,7 @@ public class WebDriverHelper extends Utilities {
    */
   public void getURL(String url) {
     ltLogger.info("Opening URL: '{}'", url);
-    this.driver.get(url);
+    driver.get(url);
   }
 
   /**
@@ -92,7 +92,7 @@ public class WebDriverHelper extends Utilities {
    * @return The title of the page.
    */
   public String getTitle() {
-    return this.driver.getTitle();
+    return driver.getTitle();
   }
 
   /**
@@ -101,28 +101,28 @@ public class WebDriverHelper extends Utilities {
    * @return The current URL.
    */
   public String getCurrentURL() {
-    return this.driver.getCurrentUrl();
+    return driver.getCurrentUrl();
   }
 
   /**
    * Refreshes the current page.
    */
   public void pageRefresh() {
-    this.driver.navigate().refresh();
+    driver.navigate().refresh();
   }
 
   /**
    * Navigates forward in the browser's history.
    */
   public void pageForward() {
-    this.driver.navigate().forward();
+    driver.navigate().forward();
   }
 
   /**
    * Navigates backward in the browser's history.
    */
   public void pageBack() {
-    this.driver.navigate().back();
+    driver.navigate().back();
   }
 
   /**
@@ -180,7 +180,7 @@ public class WebDriverHelper extends Utilities {
   public void javascriptExecution(String script) {
     ltLogger.info("Executing script: {}", script);
     try {
-      ((JavascriptExecutor) this.driver).executeScript(script);
+      ((JavascriptExecutor) driver).executeScript(script);
       ltLogger.info("Script executed successfully: {}", script);
     } catch (Exception e) {
       if (script.contains("console.error")) return;
@@ -194,7 +194,7 @@ public class WebDriverHelper extends Utilities {
    * Performs a hard refresh of the current page using JavaScript.
    */
   public void hardRefresh() {
-    ((RemoteWebDriver) this.driver).executeScript("location.reload(true);");
+    ((JavascriptExecutor) driver).executeScript("location.reload(true);");
   }
 
 
@@ -219,7 +219,7 @@ public class WebDriverHelper extends Utilities {
    */
   public File getElementScreenshotAsFile(String[] locator) {
     ltLogger.info("get screenshot with locator using ['{}','{}']", locator[0], locator[1]);
-    return getElement(locator).getScreenshotAs(OutputType.FILE);
+    return ((RemoteWebDriver) getElement(locator)).getScreenshotAs(OutputType.FILE);
   }
 
 }
